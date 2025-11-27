@@ -6,10 +6,12 @@ Este portafolio presenta tres estudios de caso que aplican técnicas avanzadas d
 
 ---
 
-## 👤 Información del Estudiante
+## � Autores
 
-**Nombre:** Aquiba Samuel Benarroch Serfaty  
-**Matrícula:** A01784240  
+- **Aquiba Samuel Benarroch Serfaty** 
+- **Edgar Samuel Oropeza García**
+- **Uziel Heredia Estrada**
+
 **Curso:** MA2003B - Análisis Multivariado  
 **Período:** Semestre Agosto-Diciembre 2025
 
