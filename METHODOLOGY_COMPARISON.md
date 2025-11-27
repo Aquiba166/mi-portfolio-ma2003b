@@ -2,254 +2,196 @@
 
 ## Introducción
 
-Este documento presenta una comparación sistemática de las tres técnicas de análisis multivariado aplicadas en el portafolio, destacando sus características, supuestos, aplicaciones y criterios de selección.
+Este documento presenta una comparación sistemática de los tres métodos de análisis multivariado aplicados en el portafolio, utilizando el formato de tabla comparativa especificado en la rúbrica del curso.
 
 ---
 
-## 🔄 Visión General de los Métodos
+## 📋 Tabla Comparativa de Métodos
 
-| Aspecto | Análisis Factorial | Análisis Discriminante | Análisis de Clusters |
-|---------|---------------------|------------------------|---------------------|
-| **Tipo** | Reducción dimensional | Clasificación supervisada | Segmentación no supervisada |
-| **Objetivo** | Identificar variables latentes | Predecir categorías | Agrupar observaciones |
-| **Variable objetivo** | No aplica | Requerida (categórica) | No aplica |
-| **Caso aplicado** | Satisfacción del cliente | Riesgo crediticio | Segmentación retail |
-
----
-
-## 📐 Análisis Factorial
-
-### Descripción
-Técnica que busca reducir la dimensionalidad identificando factores latentes que explican las correlaciones entre variables observadas.
-
-### Variantes
-| Variante | Descripción | Uso |
-|----------|-------------|-----|
-| **EFA** | Exploratorio | Descubrir estructura de factores |
-| **CFA** | Confirmatorio | Validar estructura hipotética |
-| **PCA** | Componentes principales | Maximizar varianza explicada |
-
-### Supuestos
-- ✅ Correlaciones significativas entre variables (KMO > 0.6)
-- ✅ Prueba de Bartlett significativa
-- ✅ Tamaño de muestra adecuado (n > 5-10 por variable)
-- ⚠️ Normalidad multivariante (deseable pero no crítico)
-
-### Métricas de Evaluación
-```
-┌─────────────────────────────────────────────┐
-│ • KMO (Kaiser-Meyer-Olkin): > 0.6          │
-│ • Varianza explicada acumulada: > 60%       │
-│ • Comunalidades: > 0.4                      │
-│ • Cargas factoriales: > |0.4|               │
-└─────────────────────────────────────────────┘
-```
-
-### Cuándo Usar
-- Muchas variables correlacionadas
-- Objetivo de simplificar estructura
-- Desarrollo de escalas o cuestionarios
-- Preprocesamiento para otros análisis
+| Aspecto | Factor Analysis | Discriminant Analysis | Cluster Analysis |
+|---------|-----------------|----------------------|------------------|
+| **Tipo de aprendizaje** | No supervisado | Supervisado | No supervisado |
+| **Objetivo principal** | Reducción de dimensionalidad | Clasificación | Segmentación |
+| **Input requerido** | Variables continuas (correlacionadas) | Variable categórica + predictores continuos | Variables continuas |
+| **Output principal** | Factores latentes (scores factoriales) | Funciones discriminantes (probabilidades de clase) | Grupos/clusters (asignación de membresía) |
+| **Caso de uso ideal** | Simplificar encuestas, crear índices compuestos, identificar dimensiones subyacentes de constructos | Predecir categorías de riesgo, clasificar clientes en segmentos conocidos, scoring crediticio | Descubrir segmentos de mercado, agrupar productos similares, identificar patrones de comportamiento |
+| **Limitaciones** | Requiere correlaciones significativas entre variables; interpretación subjetiva de factores; no funciona bien con pocas observaciones | Asume normalidad multivariante; LDA asume covarianzas iguales; sensible a outliers | Número de clusters es subjetivo; sensible a escala de variables; K-means asume clusters esféricos |
 
 ---
 
-## 📊 Análisis Discriminante
+## 📐 Detalles por Método
 
-### Descripción
-Técnica supervisada que encuentra combinaciones lineales de variables que mejor separan grupos predefinidos.
+### Factor Analysis (Análisis Factorial)
 
-### Variantes Comparadas en el Portafolio
+#### Características
+| Elemento | Descripción |
+|----------|-------------|
+| **Naturaleza** | Técnica de reducción de dimensionalidad |
+| **Supervisión** | No supervisado (sin variable objetivo) |
+| **Pregunta que responde** | "¿Qué estructura latente subyace a mis variables observadas?" |
 
-| Característica | LDA | QDA |
-|----------------|-----|-----|
-| **Frontera de decisión** | Lineal | Cuadrática |
-| **Covarianzas** | Asume iguales entre clases | Permite diferentes |
-| **Complejidad** | Menor | Mayor |
-| **Parámetros** | Menos | Más |
-| **Riesgo de sobreajuste** | Menor | Mayor |
-| **Interpretabilidad** | Alta | Media |
+#### Variantes Principales
+| Variante | Objetivo | Cuándo usar |
+|----------|----------|-------------|
+| **EFA (Exploratorio)** | Descubrir factores | Cuando no sabes la estructura |
+| **CFA (Confirmatorio)** | Validar estructura | Cuando tienes hipótesis de estructura |
+| **PCA** | Maximizar varianza | Cuando solo quieres reducir dimensiones |
 
-### Supuestos
-- ✅ Variable dependiente categórica
-- ✅ Variables independientes continuas (o codificadas)
-- ⚠️ Normalidad multivariante por grupo
-- ⚠️ Homogeneidad de matrices de covarianza (solo LDA)
-- ✅ Independencia de observaciones
+#### Métricas de Evaluación
+- **KMO**: > 0.6 (idealmente > 0.8)
+- **Bartlett**: p < 0.05
+- **Varianza explicada**: > 60%
+- **Comunalidades**: > 0.4
+- **Cargas factoriales**: > |0.4|
 
-### Métricas de Evaluación
-```
-┌─────────────────────────────────────────────┐
-│ • Accuracy: Proporción de correctos         │
-│ • Precision: TP / (TP + FP)                 │
-│ • Recall: TP / (TP + FN)                    │
-│ • F1-Score: Media armónica P y R            │
-│ • AUC-ROC: Área bajo curva ROC              │
-│ • Matriz de confusión                       │
-└─────────────────────────────────────────────┘
-```
-
-### Cuándo Usar
-- Clasificación con grupos conocidos
-- Interpretación de variables discriminantes
-- Predicción de membresía de grupo
-- Cuando interesa la contribución de cada variable
-
-### Resultado del Caso 2
-**Modelo seleccionado: LDA**
-- AUC = 1.000 (ambos modelos)
-- LDA preferido por simplicidad e interpretabilidad
+#### Caso del Portafolio
+- **Aplicación**: Satisfacción del cliente
+- **Resultado**: 23 variables → 5 factores (KMO = 0.92)
 
 ---
 
-## 🎯 Análisis de Clusters
+### Discriminant Analysis (Análisis Discriminante)
 
-### Descripción
-Técnica no supervisada que agrupa observaciones en clusters basándose en similitud, sin variable objetivo predefinida.
+#### Características
+| Elemento | Descripción |
+|----------|-------------|
+| **Naturaleza** | Técnica de clasificación supervisada |
+| **Supervisión** | Supervisado (requiere variable objetivo categórica) |
+| **Pregunta que responde** | "¿A qué grupo pertenece una nueva observación?" |
 
-### Algoritmos Principales
+#### Variantes Principales
+| Variante | Supuesto de covarianzas | Frontera de decisión |
+|----------|------------------------|---------------------|
+| **LDA (Lineal)** | Iguales entre clases | Lineal |
+| **QDA (Cuadrático)** | Diferentes entre clases | Cuadrática |
 
-| Algoritmo | Descripción | Ventajas | Desventajas |
-|-----------|-------------|----------|-------------|
-| **K-Means** | Particional basado en centroides | Rápido, escalable | Requiere k, sensible a outliers |
-| **Jerárquico** | Aglomerativo/Divisivo | No requiere k, dendrograma | Computacionalmente costoso |
-| **DBSCAN** | Basado en densidad | Detecta outliers, formas arbitrarias | Parámetros sensibles |
-| **GMM** | Modelos de mezcla gaussiana | Probabilístico, clusters elípticos | Asume normalidad |
+#### Métricas de Evaluación
+- **Accuracy**: Proporción de correctos
+- **Precision**: TP / (TP + FP)
+- **Recall**: TP / (TP + FN)
+- **F1-Score**: Media armónica
+- **AUC-ROC**: Área bajo curva
 
-### Supuestos
-- ⚠️ Escala de variables (estandarización recomendada)
-- ⚠️ Métrica de distancia apropiada
-- ✅ Clusters "naturales" en los datos
-
-### Métricas de Evaluación
-
-**Internas (sin ground truth):**
-```
-┌─────────────────────────────────────────────┐
-│ • Silhouette Score: [-1, 1], mayor = mejor  │
-│ • Índice de Calinski-Harabasz: mayor = mejor│
-│ • Índice de Davies-Bouldin: menor = mejor   │
-│ • Inercia (SSW): menor = mejor              │
-└─────────────────────────────────────────────┘
-```
-
-**Métodos para seleccionar k:**
-- Método del codo (Elbow)
-- Silhouette analysis
-- Gap statistic
-- Dendrograma (jerárquico)
-
-### Cuándo Usar
-- Segmentación de mercado
-- Detección de patrones ocultos
-- Agrupación de documentos
-- Compresión de datos
-- Preprocesamiento para análisis supervisado
+#### Caso del Portafolio
+- **Aplicación**: Riesgo crediticio LendSmart
+- **Resultado**: LDA seleccionado (AUC = 1.000)
 
 ---
 
-## 🔀 Comparación de Flujos de Trabajo
+### Cluster Analysis (Análisis de Clusters)
+
+#### Características
+| Elemento | Descripción |
+|----------|-------------|
+| **Naturaleza** | Técnica de segmentación no supervisada |
+| **Supervisión** | No supervisado (sin categorías predefinidas) |
+| **Pregunta que responde** | "¿Cuántos grupos naturales existen y quién pertenece a cada uno?" |
+
+#### Algoritmos Principales
+| Algoritmo | Tipo | Requiere k | Maneja outliers |
+|-----------|------|-----------|-----------------|
+| **K-Means** | Partición | Sí | No |
+| **Jerárquico** | Aglomerativo | No | Parcial |
+| **DBSCAN** | Densidad | No | Sí |
+| **GMM** | Probabilístico | Sí | Parcial |
+
+#### Métricas de Evaluación
+- **Silhouette Score**: [-1, 1], mayor = mejor
+- **Inercia (SSW)**: Menor = mejor
+- **Calinski-Harabasz**: Mayor = mejor
+- **Davies-Bouldin**: Menor = mejor
+
+#### Caso del Portafolio
+- **Aplicación**: Segmentación MegaMart
+- **Resultado**: 5 clusters de clientes identificados
+
+---
+
+## 🔄 Matriz de Decisión: ¿Cuál Método Usar?
+
+| Si necesitas... | Usa... | Porque... |
+|-----------------|--------|-----------|
+| Simplificar muchas variables correlacionadas | **Factor Analysis** | Reduce dimensionalidad identificando estructura latente |
+| Predecir a qué categoría pertenece un caso nuevo | **Discriminant Analysis** | Clasificación supervisada con interpretabilidad |
+| Descubrir grupos naturales sin categorías previas | **Cluster Analysis** | Segmentación no supervisada |
+| Entender qué variables son más importantes para separar grupos | **Discriminant Analysis** | Los coeficientes indican importancia |
+| Crear un índice o score compuesto | **Factor Analysis** | Los scores factoriales combinan variables |
+| Asignar nuevos clientes a segmentos existentes | **Discriminant Analysis** (después de Clusters) | Clasifica en grupos ya definidos |
+
+---
+
+## 🔗 Complementariedad de Métodos
+
+### Combinaciones Útiles
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                    ANÁLISIS FACTORIAL                            │
-│ ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐       │
-│ │   EDA    │ → │ KMO/     │ → │ Extrac.  │ → │ Rotación │       │
-│ │          │   │ Bartlett │   │ Factores │   │ Varimax  │       │
-│ └──────────┘   └──────────┘   └──────────┘   └──────────┘       │
-└──────────────────────────────────────────────────────────────────┘
-
-┌──────────────────────────────────────────────────────────────────┐
-│                  ANÁLISIS DISCRIMINANTE                          │
-│ ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐       │
-│ │   EDA    │ → │ Train/   │ → │ LDA/QDA  │ → │ Evaluar  │       │
-│ │          │   │ Test     │   │ Fit      │   │ Métricas │       │
-│ └──────────┘   └──────────┘   └──────────┘   └──────────┘       │
-└──────────────────────────────────────────────────────────────────┘
-
-┌──────────────────────────────────────────────────────────────────┐
-│                   ANÁLISIS DE CLUSTERS                           │
-│ ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐       │
-│ │   EDA    │ → │ Estandar │ → │ Elegir k │ → │ Perfilar │       │
-│ │          │   │ izar     │   │ Cluster  │   │ Clusters │       │
-│ └──────────┘   └──────────┘   └──────────┘   └──────────┘       │
-└──────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                    FLUJOS DE TRABAJO                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  FLUJO 1: FA → Clusters                                         │
+│  ───────────────────────                                        │
+│  Paso 1: Reducir variables a factores                           │
+│  Paso 2: Usar scores factoriales para clustering                │
+│  Beneficio: Clusters más estables y menos ruido                 │
+│                                                                 │
+│  FLUJO 2: Clusters → Discriminante                              │
+│  ──────────────────────────────────                             │
+│  Paso 1: Descubrir segmentos con clustering                     │
+│  Paso 2: Entrenar discriminante con clusters como target        │
+│  Beneficio: Clasificar nuevos casos en segmentos existentes     │
+│                                                                 │
+│  FLUJO 3: FA → Discriminante                                    │
+│  ───────────────────────────                                    │
+│  Paso 1: Extraer factores de variables predictoras              │
+│  Paso 2: Usar factores como predictores en discriminante        │
+│  Beneficio: Reducir multicolinealidad, mejorar interpretación   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🤔 Guía de Selección de Método
+## 📊 Comparación de Supuestos
 
-### Diagrama de Decisión
-
-```
-¿Tienes variable objetivo categórica?
-    │
-    ├── SÍ → ¿Quieres clasificar nuevas observaciones?
-    │         │
-    │         ├── SÍ → ANÁLISIS DISCRIMINANTE
-    │         │         • LDA si covarianzas similares
-    │         │         • QDA si covarianzas diferentes
-    │         │
-    │         └── NO → ¿Quieres entender diferencias entre grupos?
-    │                   └── SÍ → ANÁLISIS DISCRIMINANTE
-    │
-    └── NO → ¿Tienes muchas variables correlacionadas?
-              │
-              ├── SÍ → ¿Quieres reducir dimensionalidad?
-              │         │
-              │         ├── SÍ → ANÁLISIS FACTORIAL / PCA
-              │         │
-              │         └── NO → ¿Quieres segmentar observaciones?
-              │                   └── SÍ → ANÁLISIS DE CLUSTERS
-              │
-              └── NO → ¿Quieres encontrar grupos naturales?
-                        └── SÍ → ANÁLISIS DE CLUSTERS
-```
+| Supuesto | Factor Analysis | Discriminant Analysis | Cluster Analysis |
+|----------|-----------------|----------------------|------------------|
+| **Normalidad multivariante** | Deseable | Requerido (especialmente QDA) | No requerido |
+| **Correlaciones entre variables** | Requerido (KMO > 0.6) | No requerido | No requerido |
+| **Homogeneidad de covarianzas** | No aplica | Requerido para LDA | No aplica |
+| **Escala de variables** | Recomendado estandarizar | Recomendado estandarizar | Obligatorio estandarizar |
+| **Tamaño muestral mínimo** | 5-10 obs por variable | 20+ por grupo | Depende del algoritmo |
+| **Outliers** | Moderadamente sensible | Sensible | Muy sensible (K-means) |
 
 ---
 
-## 📋 Tabla Resumen Comparativa
+## 📈 Comparación de Outputs
 
-| Criterio | Factorial | Discriminante | Clusters |
-|----------|-----------|---------------|----------|
-| **Supervisado** | ❌ | ✅ | ❌ |
-| **Objetivo principal** | Reducir variables | Clasificar | Segmentar |
-| **Output** | Factores/Componentes | Predicciones | Grupos |
-| **Interpretabilidad** | Alta | Alta (LDA) | Media |
-| **Validación** | Varianza explicada | Accuracy, AUC | Silhouette |
-| **Escalabilidad** | Alta | Alta | Media-Alta |
-| **Sensible a outliers** | Media | Baja-Media | Alta (K-means) |
+| Aspecto | Factor Analysis | Discriminant Analysis | Cluster Analysis |
+|---------|-----------------|----------------------|------------------|
+| **Output numérico principal** | Cargas factoriales, scores | Probabilidades de clase, coeficientes | Asignación de cluster, centroides |
+| **Output visual típico** | Scree plot, matriz de cargas | ROC curve, matriz de confusión | Scatter plot de clusters, dendrograma |
+| **Interpretación directa** | "Esta variable pertenece a este factor" | "Esta observación tiene X% de ser clase A" | "Esta observación pertenece al cluster K" |
+| **Uso para predicción** | Indirecto (a través de scores) | Directo | Indirecto (asignar al centroide más cercano) |
 
 ---
 
-## 🎓 Conclusiones
+## 🎓 Resumen Ejecutivo
 
-### Complementariedad de Métodos
-
-Los tres métodos no son excluyentes, sino complementarios:
-
-1. **Factorial** puede usarse como preprocesamiento para reducir dimensiones antes de Discriminante o Clusters
-2. **Clusters** puede crear una variable objetivo para luego aplicar Discriminante
-3. **Discriminante** puede validar clusters encontrados
-
-### Recomendaciones Generales
-
-| Situación | Recomendación |
-|-----------|---------------|
-| Muchas variables, quiero simplificar | Análisis Factorial |
-| Tengo grupos, quiero predecir | Análisis Discriminante |
-| No tengo grupos, quiero encontrarlos | Análisis de Clusters |
-| Quiero entender qué variables importan | LDA con coeficientes |
-| Datos muy asimétricos entre clases | Considerar otras técnicas (árboles, etc.) |
+| Método | Una línea resumen |
+|--------|-------------------|
+| **Factor Analysis** | Simplifica la complejidad encontrando las dimensiones ocultas detrás de muchas variables |
+| **Discriminant Analysis** | Predice categorías y explica qué variables hacen la diferencia entre grupos |
+| **Cluster Analysis** | Descubre grupos naturales de observaciones similares sin etiquetas previas |
 
 ---
 
 ## 📚 Referencias
 
-- Hair, J. F., et al. (2019). *Multivariate Data Analysis*
-- James, G., et al. (2021). *An Introduction to Statistical Learning*
-- Hastie, T., Tibshirani, R., & Friedman, J. (2009). *The Elements of Statistical Learning*
-- Scikit-learn User Guide: https://scikit-learn.org/stable/user_guide.html
+- Hair, J. F., Black, W. C., Babin, B. J., & Anderson, R. E. (2019). *Multivariate Data Analysis* (8th ed.)
+- James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). *An Introduction to Statistical Learning* (2nd ed.)
+- Scikit-learn Documentation: https://scikit-learn.org/stable/
+- Factor Analyzer Documentation: https://factor-analyzer.readthedocs.io/
 
 ---
 
